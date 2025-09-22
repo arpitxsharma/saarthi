@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saarthi - Alumni Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        /* Adding a subtle pattern to the hero background */
+        .hero-bg {
+            background-color: #312e81; /* indigo-900 */
+            background-image: 
+                linear-gradient(to right, rgba(49, 46, 129, 0.9), rgba(49, 46, 129, 0.7)), 
+                url('https://www.transparenttextures.com/patterns/cubes.png');
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        /* Modal Styles */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span class="text-2xl font-bold text-slate-800">Saarthi</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#directory" class="text-slate-600 hover:text-indigo-600 font-medium transition-colors">Directory</a>
+                    <a href="#events" class="text-slate-600 hover:text-indigo-600 font-medium transition-colors">Events</a>
+                    <a href="#jobs" class="text-slate-600 hover:text-indigo-600 font-medium transition-colors">Jobs</a>
+                </div>
+                <div class="flex items-center">
+                    <button id="signin-button" class="bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors shadow-sm hover:shadow-md transform hover:-translate-y-px">
+                        Sign In
+                    </button>
+                    <button id="mobile-menu-button" class="md:hidden ml-4 p-2 text-slate-600 hover:text-indigo-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
+             <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="#directory" class="block py-2 px-4 text-sm text-slate-600 hover:bg-indigo-50 rounded">Directory</a>
+                <a href="#events" class="block py-2 px-4 text-sm text-slate-600 hover:bg-indigo-50 rounded">Events</a>
+                <a href="#jobs" class="block py-2 px-4 text-sm text-slate-600 hover:bg-indigo-50 rounded">Jobs</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white">
+        <div class="container mx-auto px-4 lg:px-8 py-20 lg:py-32 text-center">
+            <h1 class="text-4xl lg:text-6xl font-bold mb-4 leading-tight">Connect with Your Alumni Network</h1>
+            <p class="text-lg lg:text-xl text-indigo-200 max-w-3xl mx-auto mb-8">Rediscover old friends, build new connections, and unlock professional opportunities within your trusted community.</p>
+            <div class="max-w-2xl mx-auto bg-white rounded-lg p-2 flex items-center shadow-lg">
+                <input type="text" id="search-input" placeholder="Search alumni by name, company, or skills" class="w-full p-3 border-none text-slate-700 focus:ring-0 rounded-l-md">
+                <button id="search-button" class="bg-indigo-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-indigo-700 transition-colors flex items-center space-x-2">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                    <span class="hidden md:inline">Search</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="bg-white py-20">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800">A Comprehensive Alumni Platform</h2>
+                <p class="text-slate-600 mt-2 max-w-2xl mx-auto">Everything you need to stay connected and grow professionally, all in one place.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-4 group">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 group-hover:bg-indigo-200 transition-colors mx-auto mb-4">
+                        <i data-lucide="briefcase" class="w-8 h-8 text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800">Job Portal</h3>
+                </div>
+                <div class="p-4 group">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 group-hover:bg-indigo-200 transition-colors mx-auto mb-4">
+                        <i data-lucide="users" class="w-8 h-8 text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800">Networking Hub</h3>
+                </div>
+                <div class="p-4 group">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 group-hover:bg-indigo-200 transition-colors mx-auto mb-4">
+                        <i data-lucide="calendar-days" class="w-8 h-8 text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800">Events & Reunions</h3>
+                </div>
+                <div class="p-4 group">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 group-hover:bg-indigo-200 transition-colors mx-auto mb-4">
+                        <i data-lucide="gem" class="w-8 h-8 text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800">Donation Portal</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main id="directory" class="container mx-auto px-4 lg:px-8 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Filters Sidebar -->
+            <aside class="w-full lg:w-1/4">
+                <div class="bg-white p-6 rounded-lg shadow-sm sticky top-24 border">
+                    <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                        <i data-lucide="filter" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                        Filter Connections
+                    </h3>
+                    <div class="space-y-6">
+                        <!-- Graduation Year Filter -->
+                        <div>
+                            <label for="year-filter" class="block text-sm font-medium text-slate-700 mb-2">Graduation Year</label>
+                            <select id="year-filter" class="w-full p-2 border border-slate-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="all">All Years</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div>
+                        <!-- Major Filter -->
+                        <div>
+                            <label for="major-filter" class="block text-sm font-medium text-slate-700 mb-2">Major / Department</label>
+                            <select id="major-filter" class="w-full p-2 border border-slate-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="all">All Majors</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Mechanical">Mechanical</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Civil">Civil</option>
+                            </select>
+                        </div>
+                         <!-- Industry Filter -->
+                        <div>
+                            <label for="industry-filter" class="block text-sm font-medium text-slate-700 mb-2">Industry</label>
+                            <select id="industry-filter" class="w-full p-2 border border-slate-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="all">All Industries</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                            </select>
+                        </div>
+                        <!-- Reset Button -->
+                        <button id="reset-filters" class="w-full bg-slate-200 text-slate-800 px-4 py-2 rounded-lg font-semibold hover:bg-slate-300 transition-colors">
+                            Reset Filters
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Alumni Listings -->
+            <section class="w-full lg:w-3/4">
+                <div class="mb-4">
+                    <p id="results-count" class="text-slate-600">Showing all alumni...</p>
+                </div>
+                <div id="alumni-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Alumni cards will be injected here by JavaScript -->
+                </div>
+                <div id="no-results" class="hidden text-center py-16">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-slate-400 mb-4"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <h3 class="text-xl font-semibold text-slate-700">No Alumni Found</h3>
+                    <p class="text-slate-500 mt-2">Try adjusting your filters or search terms.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Events Section -->
+    <section id="events" class="bg-white py-20">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800">Upcoming Events</h2>
+                <p class="text-slate-600 mt-2">Join us for webinars, workshops, and reunions.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Event Card 1 -->
+                <div class="card bg-slate-50 rounded-lg overflow-hidden border border-slate-200">
+                    <img src="https://placehold.co/600x400/0f172a/ffffff?text=Networking" alt="Event Image" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-indigo-600 font-semibold mb-1">Oct 25, 2025</p>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Annual Alumni Meet</h3>
+                        <p class="text-slate-600 text-sm">Reconnect with batchmates and faculty at the grand annual reunion.</p>
+                    </div>
+                </div>
+                <!-- Event Card 2 -->
+                <div class="card bg-slate-50 rounded-lg overflow-hidden border border-slate-200">
+                    <img src="https://placehold.co/600x400/1e293b/ffffff?text=Workshop" alt="Event Image" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-indigo-600 font-semibold mb-1">Nov 12, 2025</p>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">AI & ML Workshop</h3>
+                        <p class="text-slate-600 text-sm">A hands-on workshop on the latest trends in Artificial Intelligence.</p>
+                    </div>
+                </div>
+                <!-- Event Card 3 -->
+                <div class="card bg-slate-50 rounded-lg overflow-hidden border border-slate-200">
+                    <img src="https://placehold.co/600x400/334155/ffffff?text=Webinar" alt="Event Image" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-indigo-600 font-semibold mb-1">Dec 05, 2025</p>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Career Growth Webinar</h3>
+                        <p class="text-slate-600 text-sm">Expert panel discussion on navigating the corporate ladder.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Board Section -->
+    <section id="jobs" class="py-20 bg-slate-50">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800">Job Board</h2>
+                <p class="text-slate-600 mt-2">Opportunities from our trusted network of alumni and corporate partners.</p>
+            </div>
+            <div class="space-y-4 max-w-4xl mx-auto">
+                <!-- Job Listing 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center transition hover:border-indigo-300">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Senior Frontend Developer</h3>
+                        <p class="text-slate-600">Google | Bengaluru, India</p>
+                    </div>
+                    <button class="mt-4 md:mt-0 bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">Apply</button>
+                </div>
+                 <!-- Job Listing 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center transition hover:border-indigo-300">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Product Manager</h3>
+                        <p class="text-slate-600">Microsoft | Remote</p>
+                    </div>
+                    <button class="mt-4 md:mt-0 bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">Apply</button>
+                </div>
+                 <!-- Job Listing 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center transition hover:border-indigo-300">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Data Analyst</h3>
+                        <p class="text-slate-600">Tata Motors | Pune, India</p>
+                    </div>
+                    <button class="mt-4 md:mt-0 bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">Apply</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-indigo-900 text-indigo-200">
+        <div class="container mx-auto px-4 lg:px-8 py-8 text-center">
+            <p>&copy; 2025 Saarthi. All Rights Reserved.</p>
+            <p class="text-sm text-indigo-300 mt-2">Connecting graduates, strengthening communities.</p>
+        </div>
+    </footer>
+
+    <!-- Sign-in Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <!-- Overlay -->
+        <div id="modal-overlay" class="absolute inset-0 bg-black bg-opacity-60"></div>
+        
+        <!-- Modal Content -->
+        <div id="modal-container" class="bg-white rounded-lg shadow-xl w-full max-w-md transform scale-95 opacity-0">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="modal-title" class="text-2xl font-bold text-slate-800">Sign In</h2>
+                    <button id="close-modal-button" class="text-slate-500 hover:text-slate-800">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                
+                <!-- Sign In Form -->
+                <form id="signin-form">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="signin-email" class="block text-sm font-medium text-slate-700">Email Address</label>
+                            <input type="email" id="signin-email" class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="signin-password" class="block text-sm font-medium text-slate-700">Password</label>
+                            <input type="password" id="signin-password" class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">Sign In</button>
+                    </div>
+                </form>
+
+                <!-- Sign Up Form (hidden by default) -->
+                <form id="signup-form" class="hidden">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="signup-name" class="block text-sm font-medium text-slate-700">Full Name</label>
+                            <input type="text" id="signup-name" class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="signup-email" class="block text-sm font-medium text-slate-700">Email Address</label>
+                            <input type="email" id="signup-email" class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="signup-password" class="block text-sm font-medium text-slate-700">Password</label>
+                            <input type="password" id="signup-password" class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">Create Account</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-6">
+                    <p id="auth-switch-text" class="text-sm text-slate-600">
+                        Don't have an account? <a href="#" id="auth-switch-link" class="font-medium text-indigo-600 hover:underline">Sign Up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Mock data for alumni
+        const alumni = [
+            {
+                name: "Rohan Sharma",
+                graduationYear: 2021,
+                major: "Computer Science",
+                industry: "Technology",
+                company: "Google",
+                location: "Bengaluru",
+                profilePic: "https://placehold.co/100x100/E0E7FF/4338CA?text=RS"
+            },
+            {
+                name: "Priya Singh",
+                graduationYear: 2020,
+                major: "Electronics",
+                industry: "Technology",
+                company: "Microsoft",
+                location: "Hyderabad",
+                profilePic: "https://placehold.co/100x100/E0E7FF/4338CA?text=PS"
+            },
+            {
+                name: "Anjali Mehta",
+                graduationYear: 2022,
+                major: "Mechanical",
+                industry: "Manufacturing",
+                company: "Tata Motors",
+                location: "Pune",
+                profilePic: "https://placehold.co/100x100/E0E7FF/4338CA?text=AM"
+            },
+            {
+                name: "Vikram Reddy",
+                graduationYear: 2021,
+                major: "Civil",
+                industry: "Manufacturing",
+                company: "L&T Construction",
+                location: "Mumbai",
+                profilePic: "https://placehold.co/100x100/E0E7FF/4338CA?text=VR"
+            },
+            {
+                name: "Sneha Gupta",
+                graduationYear: 2023,
+                major: "Computer Science",
+                industry: "Finance",
+                company: "Goldman Sachs",
+                location: "Bengaluru",
+                profilePic: "https://placehold.co/100x100/E0E7FF/4338CA?text=SG"
+            },
+            {
+                name: "Amit Kumar",
+                graduationYear: 2020,
+                major: "Mechanical",
+                industry: "Healthcare",
+                company: "Siemens Healthineers",
+                location: "Delhi",
+                profilePic: "https://placehold.co/100x100/E0E7FF/4338CA?text=AK"
+            },
+        ];
+
+        // DOM Elements
+        const alumniGrid = document.getElementById('alumni-grid');
+        const noResultsDiv = document.getElementById('no-results');
+        const resultsCount = document.getElementById('results-count');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const yearFilter = document.getElementById('year-filter');
+        const majorFilter = document.getElementById('major-filter');
+        const industryFilter = document.getElementById('industry-filter');
+        const resetFiltersButton = document.getElementById('reset-filters');
+        
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Modal DOM Elements
+        const authModal = document.getElementById('auth-modal');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContainer = document.getElementById('modal-container');
+        const openModalButton = document.getElementById('signin-button');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const modalTitle = document.getElementById('modal-title');
+        const signinForm = document.getElementById('signin-form');
+        const signupForm = document.getElementById('signup-form');
+        const authSwitchText = document.getElementById('auth-switch-text');
+        const authSwitchLink = document.getElementById('auth-switch-link');
+
+        // Function to create an alumni card
+        const createAlumniCard = (person) => {
+            return `
+                <div class="card bg-white p-6 rounded-lg shadow-sm border border-slate-200 flex flex-col items-center text-center">
+                    <img src="${person.profilePic}" alt="${person.name}" class="profile-img mb-4 border-4 border-white shadow-md">
+                    <h4 class="text-lg font-bold text-slate-800">${person.name}</h4>
+                    <p class="text-slate-500 text-sm mb-2">Class of ${person.graduationYear}</p>
+                    <p class="text-slate-600 text-sm font-medium mb-4 flex-grow">${person.company}</p>
+                    <div class="flex flex-wrap gap-2 mb-4 justify-center">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">${person.major}</span>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">${person.industry}</span>
+                    </div>
+                    <button class="w-full mt-auto bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
+                        View Profile
+                    </button>
+                </div>
+            `;
+        };
+        
+        // Function to render alumni
+        const renderAlumni = (alumniList) => {
+            alumniGrid.innerHTML = '';
+            if (alumniList.length === 0) {
+                noResultsDiv.classList.remove('hidden');
+                alumniGrid.classList.add('hidden');
+            } else {
+                noResultsDiv.classList.add('hidden');
+                alumniGrid.classList.remove('hidden');
+                alumniList.forEach(person => {
+                    alumniGrid.innerHTML += createAlumniCard(person);
+                });
+            }
+            resultsCount.textContent = `Showing ${alumniList.length} of ${alumni.length} alumni.`;
+        };
+
+        // Function to filter alumni
+        const filterAndRender = () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedYear = yearFilter.value;
+            const selectedMajor = majorFilter.value;
+            const selectedIndustry = industryFilter.value;
+
+            const filtered = alumni.filter(p => {
+                const nameMatch = p.name.toLowerCase().includes(searchTerm);
+                const companyMatch = p.company.toLowerCase().includes(searchTerm);
+                const yearMatch = selectedYear === 'all' || p.graduationYear == selectedYear;
+                const majorMatch = selectedMajor === 'all' || p.major === selectedMajor;
+                const industryMatch = selectedIndustry === 'all' || p.industry === selectedIndustry;
+
+                return (nameMatch || companyMatch) && yearMatch && majorMatch && industryMatch;
+            });
+            
+            renderAlumni(filtered);
+        };
+        
+        // Reset all filters
+        const resetFilters = () => {
+            searchInput.value = '';
+            yearFilter.value = 'all';
+            majorFilter.value = 'all';
+            industryFilter.value = 'all';
+            filterAndRender();
+        };
+
+        // Modal Logic
+        const showModal = () => {
+            authModal.classList.remove('hidden');
+            // Use a timeout to allow the display property to apply before starting transitions
+            setTimeout(() => {
+                modalOverlay.classList.remove('opacity-0');
+                modalContainer.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        };
+
+        const hideModal = () => {
+            modalOverlay.classList.add('opacity-0');
+            modalContainer.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                authModal.classList.add('hidden');
+            }, 300); // Corresponds to the transition duration
+        };
+
+        const switchToSignUp = () => {
+            modalTitle.textContent = 'Create Account';
+            signinForm.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+            authSwitchText.innerHTML = `Already have an account? <a href="#" id="auth-switch-link" class="font-medium text-indigo-600 hover:underline">Sign In</a>`;
+            document.getElementById('auth-switch-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                switchToSignIn();
+            });
+        };
+
+        const switchToSignIn = () => {
+            modalTitle.textContent = 'Sign In';
+            signupForm.classList.add('hidden');
+            signinForm.classList.remove('hidden');
+            authSwitchText.innerHTML = `Don't have an account? <a href="#" id="auth-switch-link" class="font-medium text-indigo-600 hover:underline">Sign Up</a>`;
+            document.getElementById('auth-switch-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                switchToSignUp();
+            });
+        };
+
+
+        // Event Listeners
+        searchInput.addEventListener('input', filterAndRender);
+        searchButton.addEventListener('click', filterAndRender);
+        yearFilter.addEventListener('change', filterAndRender);
+        majorFilter.addEventListener('change', filterAndRender);
+        industryFilter.addEventListener('change', filterAndRender);
+        resetFiltersButton.addEventListener('click', resetFilters);
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        openModalButton.addEventListener('click', showModal);
+        closeModalButton.addEventListener('click', hideModal);
+        modalOverlay.addEventListener('click', hideModal);
+        authSwitchLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchToSignUp();
+        });
+        
+        // Initial Render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAlumni(alumni);
+            lucide.createIcons();
+        });
+
+    </script>
+</body>
+</html>
+
